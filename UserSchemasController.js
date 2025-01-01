@@ -4,7 +4,7 @@ class UserSchemasController {
     async create(req, res) {
         try {
             const model = await UserSchemasService.create(req.body);
-            res.json({ message: "Модель успішно створена", model });
+            res.json({ message: "Схема успішно створена", model });
         } catch (error) {
             res.status(500).json(error.message);
         }

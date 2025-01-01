@@ -1,16 +1,5 @@
 import mongoose from 'mongoose';
 
-const convert = {
-  String: String,
-  Number: Number,
-  Boolean: Boolean,
-  Date: Date,
-  Array: Array,
-  ObjectId: mongoose.ObjectId,
-  true: true,
-  false: false 
-}
-
 const SchemaDefinition = new mongoose.Schema(
   {
     name: { type: String, required: true, unique: true },
@@ -19,21 +8,13 @@ const SchemaDefinition = new mongoose.Schema(
       required: true,
       validate: {
         validator: function (value) {
+          // Перевірка, чи є у об'єкті хоча б один ключ
+          if (Object.keys(value).length === 0) {
+            return false;
+          }
+
           try {
-            const schema = new mongoose.Schema(value);
-
-            for (const key in value) {
-              const field = value[key];
-
-              for (const keyField in field) {
-                console.log(field[keyField]);
-
-                const v = field[keyField];
-                field[keyField] = convert[v];
-              }
-              console.log(field);
-              
-            }
+            new mongoose.Schema(value);
             return true;
           } catch {
             return false;
@@ -67,6 +48,18 @@ const getModel = async (schemaName) => {
   return createDynamicModel(schemaDefinition);
 }
 
+const getAllModel = async () => {
+  const models = [];
+  const schemaDefinitionArr = await SchemaModel.find();
+
+  for (const schemaDefinition of schemaDefinitionArr) {
+    const model = createDynamicModel(schemaDefinition);
+    models.push(model);
+  }
+
+  return models;
+}
+
 const addDynamicField = (fieldName, type) => {
   assetSchema.add({ [fieldName]: { type, default: null } });
 };
@@ -75,4 +68,4 @@ const addDynamicField = (fieldName, type) => {
 // 
 // addDynamicField(propertyName, propertyType);
 
-export { SchemaModel, createDynamicModel, getModel };
+export { SchemaModel, createDynamicModel, getModel, getAllModel };

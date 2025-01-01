@@ -2,30 +2,15 @@ import { SchemaModel } from './models/SchemaModel.js';
 
 class UserSchemasService {
     async create(userSchema) {
-        /* if(Object.keys(userModel.schema).length === 0) {
-            throw new Error("Схема пуста");
-        } */
-
         return await SchemaModel.create(userSchema);  
     }
 
     async getOne(name) {
         if(!name) {
-            throw new Error("Назва моделі не вказана");
+            throw new Error("Назва схеми не вказана");
         }
         
-        const model = await SchemaModel.findOne({ name: name });
-        
-
-        const a = {
-            f1: "fff1",
-            f2: "fff2"
-        }
-        console.log(a["f1"]);
-        
-        console.log(model);
-        
-        return model;
+        return await SchemaModel.findOne({ name: name });
     }
 
     async getAll() {
@@ -37,12 +22,12 @@ class UserSchemasService {
             throw new Error("ID не вказаний");
         }
         
-        return await SchemaModel.findByIdAndUpdate(schema._id, sc, { new: true });
+        return await SchemaModel.findByIdAndUpdate(schema._id, schema, { new: true });
     }
 
     async delete(name) {
         if(!name) {
-            throw new Error("Назва моделі не вказана");
+            throw new Error("Назва схеми не вказана");
         }
         
         return await SchemaModel.findOneAndDelete({ name: name });
