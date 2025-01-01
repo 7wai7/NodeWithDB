@@ -1,6 +1,6 @@
 import { SchemaModel } from './models/SchemaModel.js';
 
-class UserModelService {
+class UserSchemasService {
     async create(userSchema) {
         /* if(Object.keys(userModel.schema).length === 0) {
             throw new Error("Схема пуста");
@@ -15,6 +15,15 @@ class UserModelService {
         }
         
         const model = await SchemaModel.findOne({ name: name });
+        
+
+        const a = {
+            f1: "fff1",
+            f2: "fff2"
+        }
+        console.log(a["f1"]);
+        
+        console.log(model);
         
         return model;
     }
@@ -46,4 +55,4 @@ class UserModelService {
     }
 }
 
-export default new UserModelService();
+export default new UserSchemasService();

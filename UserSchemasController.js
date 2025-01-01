@@ -1,9 +1,9 @@
-import UserModelService from './UserModelService.js';
+import UserSchemasService from './UserSchemasService.js';
 
-class UserModelController {
+class UserSchemasController {
     async create(req, res) {
         try {
-            const model = await UserModelService.create(req.body);
+            const model = await UserSchemasService.create(req.body);
             res.json({ message: "Модель успішно створена", model });
         } catch (error) {
             res.status(500).json(error.message);
@@ -13,7 +13,7 @@ class UserModelController {
     async getOne(req, res) {
         try {
             const { name } = req.params;
-            const post = await UserModelService.getOne(name);
+            const post = await UserSchemasService.getOne(name);
             return res.json(post);
         } catch (error) {
             res.status(500).json(error.message);
@@ -22,7 +22,7 @@ class UserModelController {
 
     async getAll(req, res) {
         try {
-            const posts = await UserModelService.getAll();
+            const posts = await UserSchemasService.getAll();
             res.json(posts);
         } catch (error) {
             res.status(500).json(error.message);
@@ -31,7 +31,7 @@ class UserModelController {
 
     async update(req, res) {
         try {
-            const updatedPost = await UserModelService.update(req.body);
+            const updatedPost = await UserSchemasService.update(req.body);
             res.json(updatedPost);
         } catch (error) {
             res.status(500).json(error.message);
@@ -41,7 +41,7 @@ class UserModelController {
     async delete(req, res) {
         try {
             const { name } = req.params;
-            const post = await UserModelService.delete(name);
+            const post = await UserSchemasService.delete(name);
             res.json(post);
         } catch (error) {
             res.status(500).json(error.message);
@@ -50,7 +50,7 @@ class UserModelController {
 
     async deleteArray(req, res) {
         try {
-            await UserModelService.deleteArray(req.body);
+            await UserSchemasService.deleteArray(req.body);
             res.status(200).send();
         } catch (error) {
             res.status(500).json(error.message);
@@ -58,4 +58,4 @@ class UserModelController {
     }
 }
 
-export default new UserModelController();
+export default new UserSchemasController();

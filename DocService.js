@@ -1,4 +1,4 @@
-import getModel from './SchemaModel.js';
+import { getModel } from './models/SchemaModel.js';
 
 class DocService {
     async create(schemaName, documentData) {

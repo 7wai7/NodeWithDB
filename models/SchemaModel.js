@@ -1,5 +1,16 @@
 import mongoose from 'mongoose';
 
+const convert = {
+  String: String,
+  Number: Number,
+  Boolean: Boolean,
+  Date: Date,
+  Array: Array,
+  ObjectId: mongoose.ObjectId,
+  true: true,
+  false: false 
+}
+
 const SchemaDefinition = new mongoose.Schema(
   {
     name: { type: String, required: true, unique: true },
@@ -10,12 +21,18 @@ const SchemaDefinition = new mongoose.Schema(
         validator: function (value) {
           try {
             const schema = new mongoose.Schema(value);
-            
+
             for (const key in value) {
               const field = value[key];
-              if (!['String', 'Number', 'Boolean', 'Date', 'Array', 'ObjectId'].includes(field.type.name)) {
-                throw new Error(`Invalid field type: ${field.type.name}`);
+
+              for (const keyField in field) {
+                console.log(field[keyField]);
+
+                const v = field[keyField];
+                field[keyField] = convert[v];
               }
+              console.log(field);
+              
             }
             return true;
           } catch {
@@ -50,4 +67,12 @@ const getModel = async (schemaName) => {
   return createDynamicModel(schemaDefinition);
 }
 
-module.exports = { SchemaModel, createDynamicModel, getModel };
+const addDynamicField = (fieldName, type) => {
+  assetSchema.add({ [fieldName]: { type, default: null } });
+};
+// propertyName = "age"
+// propertyType = "Number"
+// 
+// addDynamicField(propertyName, propertyType);
+
+export { SchemaModel, createDynamicModel, getModel };
