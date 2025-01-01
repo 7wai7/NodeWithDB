@@ -1,26 +1,26 @@
-import UserModelService from './UserModelService.js';
+import getModel from './SchemaModel.js';
 
 class DocService {
-    async create(modelName, document) {
-        const model = await UserModelService.getModel(modelName);
-        return await model.create(document);
+    async create(schemaName, documentData) {
+        const model = await getModel(schemaName);
+        return await model.create(documentData);
     }
 
-    async getOne(modelName, id) {
+    async getOne(schemaName, id) {
         if(!id) {
             throw new Error("ID не вказаний");
         }
         
-        const model = await UserModelService.getModel(modelName);
+        const model = getModel(schemaName);
         const doc = await model.findById(id);
         return doc;
     }
 
-    async getAll(modelName) {
-        if(modelName) {
-            const model = await UserModelService.getModel(modelName);
+    async getAll(schemaName) {
+        if(schemaName) {
+            const model = getModel(schemaName);
             return await model.find();
-        } else {
+        } /* else {
             const docs = [];
             const models = await UserModelService.getModels();
             for (const model of models) {
@@ -30,27 +30,27 @@ class DocService {
                 }
             }
             return docs;
-        }
+        } */
     }
 
-    async update(modelName, document) {
+    async update(schemaName, document) {
         if(!document._id) {
             throw new Error("ID не вказаний");
         }
         
-        const model = await UserModelService.getModel(modelName);
+        const model = getModel(schemaName);
         return await model.findByIdAndUpdate(document._id, document, { new: true });
     }
 
-    async delete(modelName, id) {
+    async delete(schemaName, id) {
         if(!id) {
             throw new Error("ID не вказаний");
         }
-        if(!modelName) {
+        if(!schemaName) {
             throw new Error("Назва моделі не вказана");
         }
         
-        const model = await UserModelService.getModel(modelName);
+        const model = getModel(schemaName);
         return await model.findByIdAndDelete(id);
     }
     

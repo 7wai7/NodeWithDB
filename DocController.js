@@ -3,8 +3,8 @@ import DocService from './DocService.js';
 class DocController {
     async create(req, res) {
         try {
-            const { name_model } = req.params;
-            const post = await DocService.create(name_model, req.body);
+            const { schemaName } = req.params;
+            const post = await DocService.create(schemaName, req.body);
             res.json(post);
         } catch (error) {
             res.status(500).json(error.message);
@@ -13,8 +13,8 @@ class DocController {
 
     async getOne(req, res) {
         try {
-            const { name_model, id } = req.params;
-            const post = await DocService.getOne(name_model, id);
+            const { schemaName, id } = req.params;
+            const post = await DocService.getOne(schemaName, id);
             return res.json(post);
         } catch (error) {
             res.status(500).json(error.message);
@@ -23,7 +23,7 @@ class DocController {
 
     async getAll(req, res) {
         try {
-            const posts = await DocService.getAll(req.params.name_model);
+            const posts = await DocService.getAll(req.params.schemaName);
             res.json(posts);
         } catch (error) {
             res.status(500).json(error.message);
@@ -32,8 +32,8 @@ class DocController {
 
     async update(req, res) {
         try {
-            const { name_model, id } = req.params;
-            const updatedPost = await DocService.update(name_model, req.body);
+            const { schemaName, id } = req.params;
+            const updatedPost = await DocService.update(schemaName, req.body);
             res.json(updatedPost);
         } catch (error) {
             res.status(500).json(error.message);
@@ -42,8 +42,8 @@ class DocController {
 
     async delete(req, res) {
         try {
-            const { name_model, id } = req.params;
-            const post = await DocService.delete(name_model, id);
+            const { schemaName, id } = req.params;
+            const post = await DocService.delete(schemaName, id);
             res.json(post);
         } catch (error) {
             res.status(500).json(error.message);

@@ -3,16 +3,16 @@ import DocController from '../DocController.js';
 
 const router = new Router();
 
-router.post('/:name_model', DocController.create);
+router.post('/:schemaName', DocController.create);
 
-router.get('/:name_model/:id', DocController.getOne);
+router.get('/:schemaName/:id', DocController.getOne);
 
 router.get('/', DocController.getAll);
 
-router.get('/:name_model', DocController.getAll);
+router.get('/:schemaName', DocController.getAll);
 
-router.put('/:name_model', DocController.update);
+router.put('/:schemaName', DocController.update);
 
-router.delete('/:name_model/:id', DocController.delete);
+router.delete('/:schemaName/:id', DocController.delete);
 
 export default router;
