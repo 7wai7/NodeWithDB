@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-const SchemaDefinition = new mongoose.Schema(
+const schemaDefinition = new mongoose.Schema(
   {
     name: { type: String, required: true, unique: true },
     fields: {
@@ -10,7 +10,7 @@ const SchemaDefinition = new mongoose.Schema(
         validator: function (value) {
           // Перевірка, чи є у об'єкті хоча б один ключ
           if (Object.keys(value).length === 0) {
-            return false;
+            throw new Error("Incorrect keys");
           }
 
           try {
@@ -19,8 +19,7 @@ const SchemaDefinition = new mongoose.Schema(
           } catch {
             return false;
           }
-        },
-        message: "Invalid schema definition in 'fields'.",
+        }
       },
     },    
     useTimestamps: { type: Boolean, default: false }
@@ -28,7 +27,7 @@ const SchemaDefinition = new mongoose.Schema(
   { timestamps: { createdAt: "created_at", updatedAt: "updated_at" } }
 );
 
-const SchemaModel = mongoose.model("SchemaDefinition", SchemaDefinition);
+const SchemaDefinition = mongoose.model("SchemaDefinition", schemaDefinition);
 
 const createDynamicModel = (schemaDefinition) => {
   const { name, fields, useTimestamps } = schemaDefinition;
@@ -41,16 +40,16 @@ const createDynamicModel = (schemaDefinition) => {
   return mongoose.model(name, schema);
 };
 
-const getModel = async (schemaName) => {
-  const schemaDefinition = await SchemaModel.findOne({ name: schemaName });
+const getSchemaModel = async (schemaName) => {
+  const schemaDefinition = await SchemaDefinition.findOne({ name: schemaName });
   if (!schemaDefinition) throw new Error("Schema not found");
 
   return createDynamicModel(schemaDefinition);
 }
 
-const getAllModel = async () => {
+const getAllSchemaModels = async () => {
   const models = [];
-  const schemaDefinitionArr = await SchemaModel.find();
+  const schemaDefinitionArr = await SchemaDefinition.find();
 
   for (const schemaDefinition of schemaDefinitionArr) {
     const model = createDynamicModel(schemaDefinition);
@@ -60,12 +59,13 @@ const getAllModel = async () => {
   return models;
 }
 
-const addDynamicField = (fieldName, type) => {
+/* const addDynamicField = (fieldName, type) => {
   assetSchema.add({ [fieldName]: { type, default: null } });
-};
+  userId: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
+}; */
 // propertyName = "age"
 // propertyType = "Number"
 // 
 // addDynamicField(propertyName, propertyType);
 
-export { SchemaModel, createDynamicModel, getModel, getAllModel };
+export { SchemaDefinition, createDynamicModel, getSchemaModel, getAllSchemaModels };

@@ -3,8 +3,8 @@ import UserSchemasService from './UserSchemasService.js';
 class UserSchemasController {
     async create(req, res) {
         try {
-            const model = await UserSchemasService.create(req.body);
-            res.json({ message: "Схема успішно створена", model });
+            const schema = await UserSchemasService.create(req.body);
+            res.json({ message: "Схема успішно створена", schema });
         } catch (error) {
             res.status(500).json(error.message);
         }
@@ -40,18 +40,9 @@ class UserSchemasController {
 
     async delete(req, res) {
         try {
-            const { name } = req.params;
-            const post = await UserSchemasService.delete(name);
+            const { name, docAction } = req.body;
+            const post = await UserSchemasService.delete(name, docAction);
             res.json(post);
-        } catch (error) {
-            res.status(500).json(error.message);
-        }
-    }
-
-    async deleteArray(req, res) {
-        try {
-            await UserSchemasService.deleteArray(req.body);
-            res.status(200).send();
         } catch (error) {
             res.status(500).json(error.message);
         }

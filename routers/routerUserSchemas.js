@@ -12,8 +12,6 @@ router.get('/', UserSchemasController.getAll);
 
 router.put('/:name', UserSchemasController.update);
 
-router.delete('/:name', UserSchemasController.delete);
-
-router.delete('/', UserSchemasController.deleteArray);
+router.delete('/', UserSchemasController.delete);
 
 export default router;
