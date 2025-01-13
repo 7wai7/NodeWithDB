@@ -71,3 +71,36 @@ const drawRow = (pattern) => {
 
 drawRow(['whiteChess', 'blackChess', 'white', 'black']);
 
+
+
+/* let tokenParts = req.headers.authorization
+    .split(' ')[1]
+    .split('.');
+let signature = crypto
+    .createHmac('SHA256', tokenKey)
+    .update(`${tokenParts[0]}.${tokenParts[1]}`)
+    .digest('base64');
+
+if (signature === tokenParts[2])
+    req.user = JSON.parse(
+        Buffer.from(
+            tokenParts[1],
+            'base64'
+        ).toString('utf8')
+    );
+
+next(); */
+
+/* let head = Buffer.from(
+    JSON.stringify({ alg: 'HS256', typ: 'jwt' })
+).toString('base64');
+let body = Buffer.from(
+    JSON.stringify(user)
+).toString('base64');
+let signature = crypto
+    .createHmac('SHA256', tokenKey)
+    .update(`${head}.${body}`)
+    .digest('base64'); */
+
+    
+/* token: `${head}.${body}.${signature}`, */
