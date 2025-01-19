@@ -88,7 +88,13 @@
           },
           body: JSON.stringify({ email, password })
       })
-      .then(response => response.json())
+      .then(async response => {
+          if (!response.ok) {
+              const errorText = await response.text();
+              throw new Error(errorText);
+          }
+          return response.json();
+      })
       .then(data => {
         const token = data.token;
         localStorage.setItem('token', token);

@@ -1,4 +1,4 @@
-import TaskService from "./services/TaskService.js";
+import TaskService from "../services/TaskService.js";
 
 class TaskController {
     async createSpace(req, res, next) {

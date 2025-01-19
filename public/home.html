@@ -17,20 +17,6 @@
     </div>
   </nav>
 
-  <script>
-        const token = localStorage.getItem('token');
-        fetch('/api/auth', {
-            method: 'GET',
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
-        })
-        .then(response => {
-            if(response.ok) window.location.href = '/workspace';
-        })
-        .catch(error => console.log(error));
-  </script>
-
 </body>
 
 </html>

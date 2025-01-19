@@ -27,7 +27,7 @@
         
         <div data-animation="default" data-collapse="medium" data-duration="400" data-easing="ease" data-easing2="ease" role="banner" class="navbar-2 w-nav">
             <div class="div-block-27">
-                <a href="#" class="brand w-nav-brand">
+                <a onclick="logout()" class="brand w-nav-brand">
                     <h1 class="heading">Task Manager</h1>
                 </a>
             </div>
@@ -185,6 +185,10 @@
     </script>
 
     <script>
+        function logout() {
+            localStorage.removeItem('token');
+            window.location.href = '/';
+        }
 
         function getActiveSpace() {
             return document.getElementById('spaces-list').querySelector('.active-space');
@@ -308,7 +312,6 @@
                                 let updatedTaskDate = editForm.querySelector(".task-field-date-edit").value;
 
                                 /* updatedTaskDate = updatedTaskDate ? new Date(updatedTaskDate).toLocaleDateString('uk-UA') : null; */
-                                console.log("updatedTaskDate " + updatedTaskDate);
                                 
                                 
                                 // Оновлюємо форму перегляду
@@ -475,7 +478,9 @@
             document.getElementById('submit-new-space').addEventListener("click", function (event) {
                 event.preventDefault();
 
-                const name = document.getElementById('space-name-field').value;
+                const nameField = document.getElementById('space-name-field');
+                const name = nameField.value;
+                nameField.value = '';
 
                 const token = localStorage.getItem('token');
                 fetch(`/api/tasks/space/${name}`, {
@@ -495,8 +500,6 @@
                     form.style.display = "none";
 
                     renderSpaces();
-
-                    console.log(data);
                 })
                 .catch(err => console.log(err))
             });
@@ -553,7 +556,8 @@
                         let priority = editForm.querySelector(".task-field-priority-edit").value;
                         let dueDate = editForm.querySelector(".task-field-date-edit").value;
 
-                        dueDate = dueDate ? new Date(dueDate).toLocaleDateString('uk-UA') : null;
+                        /* dueDate = dueDate ? new Date(dueDate).toLocaleDateString('uk-UA') : null; */
+
 
                         const newTask = { title, description, status, priority, dueDate };
 
@@ -582,6 +586,17 @@
         });
 
 
+        const token = localStorage.getItem('token');
+        fetch('/api/auth', {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        })
+        .then(response => {
+            if(!response.ok) window.location.href = '/';
+        })
+        .catch(error => {});
         renderSpaces();
     </script>
 
