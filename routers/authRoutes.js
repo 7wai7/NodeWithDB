@@ -5,12 +5,12 @@ import authMiddleware from '../middleware/middlewares.js';
 const router = new Router();
 
 
-router.use(authMiddleware);
+/* router.use(authMiddleware); */
 
 router.post('/register', UserController.registration);
 
 router.post('/login', UserController.authorization);
 
-router.get('/user', UserController.getOne);
+router.get('/', authMiddleware, UserController.getOne);
 
 export default router;

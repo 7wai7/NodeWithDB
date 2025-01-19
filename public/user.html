@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+</head>
+
+<body class="bg-gray-100">
+
+  <div class="flex items-center justify-center min-h-screen">
+    <div class="w-full max-w-md p-6 bg-white rounded-lg shadow-md">
+      <h2 class="mb-6 text-2xl font-semibold text-center text-gray-700">
+        Get user data
+      </h2>
+
+      <div>
+        <div class="mb-4">
+          <div class="w-full px-3 py-2 border border-gray-300 rounded-md">
+            login: <span id="login"></span>
+          </div>
+        </div>
+
+        <div class="mb-4">
+          <div class="w-full px-3 py-2 border border-gray-300 rounded-md">
+            id: <span id="userId"></span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const token = localStorage.getItem('token');
+  
+    fetch('/api/auth/', {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      }
+    })
+    .then(response => response.json())
+    .then(data => {
+        document.getElementById('login').innerText = data.login || 'Немає логіна';
+        document.getElementById('userId').innerText = data._id || 'Немає ID';
+    })
+    .catch(error => console.error('Error:', error));
+  </script>
+  
+  
+
+</body>
+
+</html>

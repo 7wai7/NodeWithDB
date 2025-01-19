@@ -4,12 +4,12 @@ import dotenv from 'dotenv';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
-import pages from './routers/pages.js';
+import pageRoutes from './routers/pages.js';
 import authRoutes from './routers/authRoutes.js';
 import taskRoutes from './routers/taskRoutes.js';
 
 const __filename = fileURLToPath(import.meta.url);
-global.__dirname = dirname(__filename);
+const __dirname = dirname(__filename);
 dotenv.config();
 
 const PORT = process.env.PORT || 3000;
@@ -27,7 +27,7 @@ app.use((err, req, res, next) => {
 
 app.use('/api/auth', authRoutes);
 app.use('/api/tasks', taskRoutes);
-app.use("/auth", pages);
+app.use("/", pageRoutes);
 
 app.use((req, res) => {
     res.status(404).send(`<h1>Error 404: Resource not found</h1>`)

@@ -6,14 +6,21 @@ const router = new Router();
 
 router.use(authMiddleware);
 
-router.post('/', TaskController.create);
+router.post('/space/:space_name', TaskController.createSpace);
+
+router.get('/space', TaskController.getSpaces);
+
+router.delete('/space/:space_id', TaskController.deleteSpace);
+
+
+router.post('/:space_id', TaskController.create);
 
 router.get('/:id', TaskController.getOne);
 
-router.get('/', TaskController.getMany);
+router.get('/space/:space_id', TaskController.getMany);
 
 router.put('/:id', TaskController.update);
 
-router.delete('/', TaskController.delete);
+router.delete('/:id', TaskController.delete);
 
 export default router;

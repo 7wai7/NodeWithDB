@@ -3,11 +3,12 @@ const ObjectId = mongoose.Schema.Types.ObjectId;
 
 const taskSchema = new mongoose.Schema({
     user: { type: ObjectId, ref: "User", required: true },
-    name: { type: String, required: true, unique: true },
+    space: { type: ObjectId, ref: "Space", required: true, index: true },
+    title: { type: String, required: true },
     description: { type: String, default: ''},
     status: {
         type: String,
-        enum : ['To Do','In Progress', 'Completed', 'On Hold', 'Canceled', 'Deferred', 'Archived'],
+        enum : ['To Do','In Progress', 'Completed', 'On Hold', 'Canceled', 'Archived'],
         default: 'To Do',
         index: true
     },

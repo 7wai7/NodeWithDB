@@ -7,7 +7,7 @@ export default async function authMiddleware(req, res, next) {
             req.headers.authorization.split(' ')[1],
             process.env.TOKEN_KEY,
             async (err, payload) => {
-                if (err) next();
+                if (err) res.status(401).json({ message: 'Invalid token or authorization failed' });
                 else if (payload) {
                     const user = await User.findById(payload.id);
                     
@@ -15,10 +15,9 @@ export default async function authMiddleware(req, res, next) {
                     if (user) {
                         req.user = user;
                         next();
-                    } else
-                        return res.status(401).json({ message: 'Not registered' });
+                    } else res.status(401).json({ message: 'User not found' });
                 }
             }
         );
-    } else next();
+    } else res.status(401).json({ message: 'Not registered' });
 }
