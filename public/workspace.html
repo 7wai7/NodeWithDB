@@ -218,7 +218,7 @@
                         const taskList = document.getElementById(status.replace(/\s+/g, '-'));
 
                         const formattedDate = task.dueDate 
-                        ? new Date(task.dueDate).toLocaleDateString('uk-UA')
+                        ? new Date(task.dueDate).toLocaleDateString('en-CA')
                         : '-';
 
 
@@ -239,7 +239,8 @@
                             </div>
                             <div class="task-field">
                                 <img width="24" loading="lazy" alt="Date" src="https://cdn.prod.website-files.com/678973906c11bdc4a2355168/678a89d0193f885bc7adcc55_calendar_month_24dp_5F6368_FILL0_wght300_GRAD0_opsz24.svg"/>
-                                <div class="task-field-date">${formattedDate}</div>
+                                
+                                <input type="date" class="task-field-date" value="${formattedDate}" readonly/>
                             </div>
                         `;
 
@@ -255,13 +256,11 @@
                             let taskName = taskForm.querySelector(".task-field-name").innerText;
                             let taskDesc = taskForm.querySelector(".task-field-description").innerText;
                             let taskPriority = taskForm.querySelector(".task-field-priority").innerText;
-                            let taskDate = taskForm.querySelector(".task-field-date").innerText;
+                            let taskDate = taskForm.querySelector(".task-field-date").value;
 
                             const formattedDateEN = taskDate
-                            /* ? new Date(taskDate.replace(/\./g, '-')).toLocaleDateString('en-CA')  // Формат YYYY-MM-DD
+                            ? new Date(taskDate).toLocaleDateString('en-CA')  // Формат YYYY-MM-DD
                             : '-';
-
-                            console.log("formattedDateEN " + formattedDateEN); */
                             
 
                             // Створюємо форму редагування
@@ -318,7 +317,7 @@
                                 taskForm.querySelector(".task-field-name").innerText = updatedTaskName;
                                 taskForm.querySelector(".task-field-description").innerText = updatedTaskDesc;
                                 taskForm.querySelector(".task-field-priority").innerText = updatedTaskPriority;
-                                taskForm.querySelector(".task-field-date").innerText = updatedTaskDate /* ? new Date(updatedTaskDate).toLocaleDateString('uk-UA') : */ || '-';
+                                taskForm.querySelector(".task-field-date").value = updatedTaskDate /* ? new Date(updatedTaskDate).toLocaleDateString('uk-UA') : */ || '-';
 
                                 // Видаляємо форму редагування і показуємо оновлену форму перегляду
                                 editForm.remove();
