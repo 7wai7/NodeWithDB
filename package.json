@@ -12,7 +12,10 @@
   "license": "0BSD",
   "description": "",
   "dependencies": {
+    "bcrypt": "^5.1.1",
+    "dotenv": "^16.4.7",
     "express": "^4.21.2",
+    "jsonwebtoken": "^9.0.2",
     "keypress": "^0.2.1",
     "mongoose": "^8.9.2",
     "net": "^1.0.2",

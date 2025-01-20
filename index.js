@@ -1,21 +1,42 @@
 import express from 'express';
 import mongoose from 'mongoose';
-import routerDocument from './routers/routerDocument.js';
-import routerUserModels from './routers/routerUserModels.js';
+import dotenv from 'dotenv';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+import pageRoutes from './routers/pages.js';
+import authRoutes from './routers/authRoutes.js';
+import taskRoutes from './routers/taskRoutes.js';
 
-const PORT = process.env.PORT || 3000
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+dotenv.config();
+
+const PORT = process.env.PORT || 3000;
 const DB_URL = "mongodb://localhost:27017/userdb";
 
 const app = express();
 
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.use('/api/docs', routerDocument);
-app.use('/api/models', routerUserModels);
+app.use(express.static(path.join(__dirname, 'public')));
+
+app.use((err, req, res, next) => {
+    res.status(err.status || 500).json({ message: err.message });
+});
+
+app.use('/api/auth', authRoutes);
+app.use('/api/tasks', taskRoutes);
+app.use("/", pageRoutes);
+
+app.use((req, res) => {
+    res.status(404).send(`<h1>Error 404: Resource not found</h1>`)
+});
 
 async function startApp() {
     try {
         await mongoose.connect(DB_URL);
-        app.listen(PORT, () => console.log("Сервер працює на порті " + PORT));
+        app.listen(PORT, () => console.log(`Сервер працює на порті: http://localhost:${PORT}`));
     } catch (error) {
         console.log(error);
     }
